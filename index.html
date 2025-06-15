@@ -118,6 +118,43 @@
     });
 
     function downloadImage() {
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const bg = new Image();
+  bg.src = 'SARKANTO.jpg';
+
+  const userImg = new Image();
+  userImg.src = photo.src;
+
+  bg.onload = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Gambar template dulu
+    ctx.drawImage(bg, 0, 0, 400, 600);
+
+    // Ukuran sebenarnya dari gambar pengguna
+    const drawWidth = 200 * scale;
+    const drawHeight = 200 * scale;
+
+    const drawX = 100 + offsetX - (drawWidth - 200) / 2;
+    const drawY = 200 + offsetY - (drawHeight - 200) / 2;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(200, 300, 100, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.clip();
+
+    ctx.drawImage(userImg, drawX, drawY, drawWidth, drawHeight);
+    ctx.restore();
+
+    const link = document.createElement('a');
+    link.download = 'twibbon-polisi-satwa.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+}
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
 
